@@ -2,20 +2,30 @@ function GildedRose (sellIn, quality, name) {
   this.name = name;
   this.sellIn = sellIn;
   this.quality = quality;
-}
 
-GildedRose.prototype.tick = function () {
-  if (this.name != 'Aged Brie' && this.name != 'Backstage passes to a TAFKAL80ETC concert') {
+  GildedRose.prototype.normal = function () {
     if (this.quality > 0) {
-      if (this.name != 'Sulfuras, Hand of Ragnaros') {
-        if(this.name == 'Conjured Mana Cake') {
-          this.quality -= 2;
-        } else {
-          this.quality = this.quality - 1;
+      this.quality -= 1;
+    }
+    if (this.sellIn < 0 && this.quality > 0)  {
+      this.quality -= 1;
+    }
+  },
+
+  GildedRose.prototype.conjuredCake = function () {
+    if(this.quality > 0) {
+      this.quality -= 2;
+    }
+  }
+
+  GildedRose.prototype.tick = function () {
+    if (this.name != 'Aged Brie' && this.name != 'Backstage passes to a TAFKAL80ETC concert' && this.name != 'Sulfuras, Hand of Ragnaros') {
+    if (this.quality > 0) {
+          this.normal();
+          this.conjuredManaCake();
         }
       }
-    }
-  } else {
+   else {
     if (this.quality < 50) {
       this.quality = this.quality + 1;
       if (this.name == 'Backstage passes to a TAFKAL80ETC concert') {
@@ -41,9 +51,9 @@ GildedRose.prototype.tick = function () {
         if (this.quality > 0) {
           if (this.name != 'Sulfuras, Hand of Ragnaros') {
             if(this.name == 'Conjured Mana Cake') {
-              this.quality -= 2;
+              this.normal();
             } else {
-              this.quality = this.quality - 1;
+              this.conjuredManaCake();
 
             }
           }
@@ -57,6 +67,6 @@ GildedRose.prototype.tick = function () {
       }
     }
   }
+};
 }
-
 export { GildedRose };
